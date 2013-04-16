@@ -21,12 +21,12 @@ package ficheroAFecha;
  */
 public class FicheroAFecha {
 
+		
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+		
 	}
 
 }
