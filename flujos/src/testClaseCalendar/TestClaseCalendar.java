@@ -1,4 +1,7 @@
 package testClaseCalendar;
+
+import java.util.Calendar;
+
 /**
  * 
  * Clase TestClaseCalendar
@@ -27,11 +30,62 @@ package testClaseCalendar;
 public class TestClaseCalendar {
 
 	/**
+	 * Main
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+		Calendar cal = null;
+		Menu menu = new Menu("TestClaseCalendar", true);
+		menu.add("Capturar instante");
+		menu.add("Año");
+		menu.add("Mes");
+		menu.add("Día");
+		menu.add("Día de la semana");
+		menu.add("Hora");
+		menu.add("Minutos");
+		menu.add("Segundos");
+		
+		while(true){
+			try {
+				menu.print();
+				switch (menu.select()) {
+				case 1: // Captura instante
+					cal = Calendar.getInstance();
+					break;
+				case 2: // Año
+					System.out.println("Año con get: " + cal.get(Calendar.YEAR));
+					System.out.format("Año con format: %tC, %<tY, %<ty %n", cal);
+					break;
+				case 3: // Mes
+					System.out.println("Mes con get: " + cal.get(Calendar.MONTH));
+					System.out.format("Mes con format: %tB, %<tb, %<tm %n", cal);
+					break;
+				case 4: // Día
+					System.out.println("Dia con get: " + cal.get(Calendar.DAY_OF_MONTH));
+					System.out.format("Dia con format: %td, %<te, %<tj %n", cal);
+					break;
+				case 5: // Día de la semana
+					System.out.println("Dia de la semana con get: " + cal.get(Calendar.DAY_OF_WEEK));
+					System.out.format("Dia de la semana con format: %tA, %<ta %n", cal);
+					break;
+				case 6: // Hora
+					System.out.println("Hora con get: " + cal.get(Calendar.HOUR));
+					System.out.format("Hora con format: %tH, %<tI%<tp, %<tk, %<tl%<tp %n", cal);
+					break;
+				case 7: // Minutos
+					System.out.println("Minuto con get: " + cal.get(Calendar.MINUTE));
+					System.out.format("Minuto con format: %tM %n", cal);
+					break;
+				case 8: // Segundos
+					System.out.println("Segundo con get: " + cal.get(Calendar.SECOND));
+					System.out.format("Segundo con format: %tS %n", cal);
+					break;
+				}
+			} catch (NullPointerException e) {
+				System.err.println("Captura el instante antes de analizarlo.");
+			}
+		}
+	
 	}
 
 }
