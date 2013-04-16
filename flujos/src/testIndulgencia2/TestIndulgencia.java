@@ -15,10 +15,10 @@ import java.util.Calendar;
  *  
  *  ¿Qué hace la línea 
  *   ahora.setLenient(false);
- *   => Genera una excepción
+ *   => Evita fechas ficticias.
  *   
  *  ¿Le encuentras alguna utilidad?
- *   => A la vista de lo sucedido, no.
+ *   => Si.
  *  
  *  Modifica el código y diseña un método que puedas reutilizar
  *  para futuros programas con fechas. Entrégalo como TestIndulgencia2
@@ -34,7 +34,7 @@ public class TestIndulgencia {
 		Calendar ahora = Calendar.getInstance();
 		System.out.println(ahora.getClass());
 		
-		ahora.setLenient(false);
+		//ahora.setLenient(false);
 		ahora.set(2004, 32, 32);
 		System.out.println(ahora.getTime());
 		
