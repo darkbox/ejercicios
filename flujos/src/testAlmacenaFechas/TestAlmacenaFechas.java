@@ -45,6 +45,7 @@ public class TestAlmacenaFechas {
 				break;
 			case 2:
 				addDate();
+				showDates();
 				break;
 			case 3:
 				writeFile();
