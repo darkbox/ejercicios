@@ -114,6 +114,26 @@ public class Directorio {
 	}
 	
 	/**
+	 * Borra un directorio si está vacío
+	 * @param dir
+	 */
+	public static void rmdirIfEmpty(File dir){
+		if(!dir.exists()){
+			System.err.println("Directory does not exist.");
+		}else if(checkEmptyDir(dir) == 0){
+			try{
+				delete(dir);
+				System.out.println("Done");
+			}catch(IOException e){
+				System.err.println("Error");
+			}
+		}else{
+			System.err.println("Directory is not empty. Remove action aborted.");
+		}
+	}
+	
+	
+	/**
 	 * Borra un archivo
 	 * @param file
 	 * @throws IOException
