@@ -19,7 +19,7 @@ public class TestDirectorios {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		System.out.println(Directorio.getWorkingDirecctory());
+		System.out.println(Directorio.getWorkingDirectory());
 		// Creamos un directorio
 		Directorio.mkdir(new File("dir_01"));
 		Directorio.mkdir(new File("dir_02"));

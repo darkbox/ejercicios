@@ -27,8 +27,36 @@ public class Directorio {
 	 * Optiene la dirección del directorio de trabajo actual
 	 * @return String
 	 */
-	public static String getWorkingDirecctory(){
+	public static String getWorkingDirectory(){
 		return System.getProperty("user.dir");
+	}
+	
+	/**
+	 * Obtiene el directorio padre de un fichero
+	 * @param dir
+	 * @return String directorio padre
+	 */
+	public static String getParent(File file){
+		File file2 = new File(file.getAbsolutePath());
+		return file2.getParent();
+	}
+	
+	/**
+	 * Obtiene la dirección absoluta
+	 * @param file
+	 * @return String
+	 */
+	public static String getAbsolutePath(File file){
+		return file.getAbsolutePath();
+	}
+	
+	/**
+	 * Comprueba si un fichero o directorio existe
+	 * @param file
+	 * @return true si existe
+	 */
+	public static boolean exists(File file){
+		return file.exists();
 	}
 	
 	/**
@@ -49,6 +77,28 @@ public class Directorio {
 			System.out.println("This is not a directory");
 			return -1;
 		}
+	}
+	
+	/**
+	 * Comprueba si es un directorio o no.
+	 * @param dir
+	 * @return true si es directorio
+	 */
+	public static boolean isDir(File dir){
+		if(dir.isDirectory()){
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * Renombra un directorio o fichero
+	 * @param old
+	 * @param dest
+	 * @return true si ha tenido éxito
+	 */
+	public static boolean renameDirAndFile(File old, File dest){
+		return old.renameTo(dest);
 	}
 	
 	/**
