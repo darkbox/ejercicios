@@ -137,7 +137,7 @@ public class Directorio {
 	 * @param folders
 	 */
 	public static void mkdirs(File dirs){
-		if (dirs.exists()) {
+		if (!dirs.exists()) {
 			if (dirs.mkdirs()) {
 				System.out.println("Multiple directories are created!");
 			} else {
