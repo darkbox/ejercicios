@@ -45,8 +45,8 @@ Est√°s en la planta 6. Destino conseguido
 Cerrando puerta
 Quieres dejar el ascensor ya?
  * 
- * @author Rafael Garc√≠a Maliga
- * @version 1.0
+ * @author Rafael GarcÌa Maliga
+ * @version 2.0
  *
  */
 public class Ascensor {
@@ -101,7 +101,11 @@ public class Ascensor {
 			this.down();
 		}else if (this.getCurrentFloor() < this.getTargetFloor()){
 			this.up();
+		}else{
+			System.out.println("________________________________\n"
+							 + "    Ya est· en la misma planta\n");
 		}
+		
 	}
 	/**
 	 * Muestra la planta actual en la que se encuentra.
@@ -112,6 +116,12 @@ public class Ascensor {
 	//Sets y Gets
 	public void setTargetFloor(int targetFloor) {
 		this.targetFloor = targetFloor;
+	}
+	public void setFloors(int floors){
+		this.floors = floors;
+	}
+	public void setCurrentFloor(int currentFloor) {
+		this.currentFloor = currentFloor;
 	}
 	public int getCurrentFloor() {
 		return currentFloor;
