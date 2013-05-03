@@ -35,7 +35,7 @@ import javax.swing.UIManager;
  * @author Rafael García Maliga
  * @since 30/04/2013
  * @version 1.0
- *
+ * 
  */
 public class EntornoGrafico1 extends JFrame {
 
