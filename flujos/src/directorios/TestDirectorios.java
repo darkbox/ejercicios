@@ -16,41 +16,66 @@ import java.io.File;
 public class TestDirectorios {
 
 	/**
+	 * Main
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		System.out.println(Directorio.getWorkingDirecctory());
-		// Creamos un directorio
-		Directorio.mkdir(new File("dir_01"));
-		Directorio.mkdir(new File("dir_02"));
-		System.out.println();
-		// Creamos varios directorios
+		TecladoScanner t = TecladoScanner.getInstance();
+		Menu menu =  new Menu("Directorios", true);
+		menu.add("Crear un directorio");
+		menu.add("Borrar");
+		menu.add("Renombrar");
+		menu.add("Copiar directorio");
+		menu.add("Listar");
+		menu.add("Directorio actual");
+		menu.add("Crear varios directorios");
+		menu.add("Mostrar ruta absoluta");
+		menu.add("Borrar si está vacio");
+		menu.add("Mostrar padre");
+		menu.add("Es directorio?");
 		
-		Directorio.mkdir(new File("dir_01\\subDir_01\\lol"));
-		System.out.println();
-		
-		// Comprobamos si está vacío un directorio
-		Directorio.checkEmptyDir(new File("dir_02"));
-		System.out.println();
+		while(true){
+			menu.print();
+			switch (menu.select()) {
+			case 1:
+				Directorio.mkdir(new File(t.leerCadena("Escribe el nombre del directorio:")));
+				break;
+			case 2:
+				Directorio.rmdir(new File(t.leerCadena("Escribe el nombre del directorio:")));
+				break;
+			case 3:
+				Directorio.renameDirAndFile(new File(t.leerCadena("Escribe el nombre del directorio:")), new File(t.leerCadena("Escribe el nombre del directorio:")));
+				break;
+			case 4:
+				Directorio.cpdir(new File(t.leerCadena("Escribe el antiguo nombre:")), new File(t.leerCadena("Escribe el nuevo nombre:")));
+				break;
+			case 5:
+				Directorio.displayDirAndFile(new File(t.leerCadena("Escribe el nombre del directorio a listar:")));
+				break;
+			case 6:
+				System.out.println(Directorio.getWorkingDirectory());
+				break;
+			case 7:
+				Directorio.mkdirs(new File(t.leerCadena("Escribe el nombre de los directorios:")));
+				break;
+			case 8:
+				Directorio.getAbsolutePath(new File(t.leerCadena("Escribe el nombre del directorio:")));
+				break;
+			case 9:
+				Directorio.rmdirIfEmpty(new File(t.leerCadena("Escribe el nombre del directorio:")));
+				break;
+			case 10:
+				Directorio.getParent(new File(t.leerCadena("Escribe el nombre del directorio:")));
+				break;
+			case 11:
+				if(Directorio.isDir(new File(t.leerCadena("Escribe el nombre del directorio:"))))
+					System.out.println("Sí es un directorio.");
+				else
+					System.out.println("No es un directorio.");
+				break;
+			}
+		}
 
-		// listamos los directorios
-		Directorio.displayDirAndFile(new File("dir_01"));
-		System.out.println();
-
-		// Copiamos un directorio
-		Directorio.cpdir(new File("dir_01"), new File("dir_02/CopiaDir_01"));
-		System.out.println();
-
-		// listamos los directorios
-		Directorio.displayDirAndFile(new File("dir_02"));
-		System.out.println();
-
-		// borramos todo
-		Directorio.rmdir(new File("dir_01"));
-		Directorio.rmdir(new File("dir_02"));
-
-
-		
 	}
 
 }

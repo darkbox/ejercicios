@@ -25,15 +25,43 @@ public class Directorio {
 	
 	/**
 	 * Optiene la dirección del directorio de trabajo actual
-	 * @return String
+	 * @return String dirección del directorio
 	 */
-	public static String getWorkingDirecctory(){
+	public static String getWorkingDirectory(){
 		return System.getProperty("user.dir");
 	}
 	
 	/**
+	 * Obtiene el directorio padre de un fichero
+	 * @param file fichero
+	 * @return String directorio padre
+	 */
+	public static String getParent(File file){
+		File file2 = new File(file.getAbsolutePath());
+		return file2.getParent();
+	}
+	
+	/**
+	 * Obtiene la dirección absoluta
+	 * @param file fichero
+	 * @return String dirección absoluta
+	 */
+	public static String getAbsolutePath(File file){
+		return file.getAbsolutePath();
+	}
+	
+	/**
+	 * Comprueba si un fichero o directorio existe
+	 * @param file fichero
+	 * @return true si existe
+	 */
+	public static boolean exists(File file){
+		return file.exists();
+	}
+	
+	/**
 	 * Comprueba si es un directorio
-	 * @param dir
+	 * @param dir fichero
 	 * @return int 1 no está vacío; 0 está vacío; -1 no es un directorio 
 	 */
 	public static int checkEmptyDir(File dir){
@@ -52,8 +80,30 @@ public class Directorio {
 	}
 	
 	/**
+	 * Comprueba si es un directorio o no.
+	 * @param dir fichero
+	 * @return true si es directorio
+	 */
+	public static boolean isDir(File dir){
+		if(dir.isDirectory()){
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * Renombra un directorio o fichero
+	 * @param old fichero antiguo
+	 * @param dest fichero destino
+	 * @return true si ha tenido éxito
+	 */
+	public static boolean renameDirAndFile(File old, File dest){
+		return old.renameTo(dest);
+	}
+	
+	/**
 	 * Muestra y lista un directorio y sus archivos
-	 * @param node
+	 * @param node fichero nodo
 	 */
 	public static void displayDirAndFile(File node){
 		System.out.println(node.getAbsoluteFile());
@@ -69,7 +119,7 @@ public class Directorio {
 	/**
 	 * Crea un directorio
 	 * "C:\\Directory1"
-	 * @param folder
+	 * @param dir fichero a crear
 	 */
 	public static void mkdir(File dir){
 		if(!dir.exists()){
@@ -84,10 +134,10 @@ public class Directorio {
 	/**
 	 * Crea varios directorios
 	 * "C:\\Directory2\\Sub2\\Sub-Sub2"
-	 * @param folders
+	 * @param dirs ficheros a crear
 	 */
 	public static void mkdirs(File dirs){
-		if (dirs.exists()) {
+		if (!dirs.exists()) {
 			if (dirs.mkdirs()) {
 				System.out.println("Multiple directories are created!");
 			} else {
@@ -98,7 +148,7 @@ public class Directorio {
 	
 	/**
 	 * Borra un directorio
-	 * @param dir
+	 * @param dir fichero a borrar
 	 */
 	public static void rmdir(File dir){
 		if(!dir.exists()){
@@ -115,7 +165,7 @@ public class Directorio {
 	
 	/**
 	 * Borra un directorio si está vacío
-	 * @param dir
+	 * @param dir fichero
 	 */
 	public static void rmdirIfEmpty(File dir){
 		if(!dir.exists()){
@@ -135,7 +185,7 @@ public class Directorio {
 	
 	/**
 	 * Borra un archivo
-	 * @param file
+	 * @param file fichero a borrar
 	 * @throws IOException
 	 */
 	private static void delete(File file)
@@ -180,8 +230,8 @@ public class Directorio {
 	
 	/**
 	 * Copia un directorio
-	 * @param srcFolder
-	 * @param destFolder
+	 * @param srcFolder fichero fuente
+	 * @param destFolder fichero destino
 	 */
 	public static void cpdir(File srcFolder, File destFolder){
 		//make sure source exists
@@ -206,9 +256,9 @@ public class Directorio {
 	}
 	
 	/**
-	 * Conpia un fichero
-	 * @param src
-	 * @param dest
+	 * Copia un fichero
+	 * @param src fichero funete
+	 * @param dest fichero destino
 	 * @throws IOException
 	 */
 	private static void copyFolder(File src, File dest)
