@@ -23,8 +23,8 @@ public class Menu {
 	
 	/**
 	 * @brief Constructor menú con título
-	 * @param title
-	 * @param exit true/false
+	 * @param title título
+	 * @param exit true/false 
 	 */
 	public Menu(String title, boolean exit){
 		super();
@@ -48,7 +48,7 @@ public class Menu {
 	
 	/**
 	 * @brief Agrega nueva opción al menú
-	 * @param option String
+	 * @param option cadena de texto con el nuevo item del menu
 	 */
 	public void add(String option){
 		menu.add(option);
@@ -106,7 +106,7 @@ public class Menu {
 	
 	/**
 	 * @brief Formatea título del menú
-	 * @return String
+	 * @return String devuelve cadena con el titulo formateado
 	 */
 	private String printTitle(){
 		String s = "\n" + title + "\n";

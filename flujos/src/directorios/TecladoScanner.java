@@ -9,7 +9,7 @@ import java.util.Scanner;
  * Crea la clase TecladoScanner para la lectura 
  * de datos desde el teclado
  *
- * @author Rafael GarcÃ­a Maliga
+ * @author Rafael García Maliga
  * @version 1.0
  *
  */
@@ -20,7 +20,7 @@ public class TecladoScanner {
 
 	/**
 	 * Constructor
-	 * @param in
+	 * @param in entrada InputStream
 	 */
 	private TecladoScanner(InputStream in) {
 		super();
@@ -29,16 +29,16 @@ public class TecladoScanner {
 	
 	/**
 	 * Devuleve una instancia de TecladoScanner
-	 * para cumplir con el patrï¿½n Singleton
-	 * @return TecladoScanner
+	 * para cumplir con el patrón Singleton
+	 * @return devuelve la instancia de TecladoScanner
 	 */
 	public static TecladoScanner getInstance(){
 		return INSTANCE;
 	}
 	
 	/**
-	 * Sobrescribe el mï¿½todo clone de Object para que
-	 * solo pueda existir una ï¿½nica instancia
+	 * Sobrescribe el método clone de Object para que
+	 * solo pueda existir una única instancia
 	 */
 	public Object clone() throws CloneNotSupportedException {
         throw new CloneNotSupportedException(); 
@@ -46,7 +46,7 @@ public class TecladoScanner {
 	
 	/**
 	 * Lee un entero
-	 * @return int
+	 * @return int devuelve entero
 	 */
 	int leerEntero(){
 		while(true){
@@ -61,8 +61,8 @@ public class TecladoScanner {
 	
 	/**
 	 * Lee un entero y muestra un mensaje
-	 * @param msg
-	 * @return int
+	 * @param msg cadena de texto a mostrar
+	 * @return int devuelve entero
 	 */
 	int leerEntero(String msg){
 		System.out.print(msg);
@@ -71,7 +71,7 @@ public class TecladoScanner {
 	
 	/**
 	 * Lee un decimal
-	 * @return double
+	 * @return double devuelve un decimal de tipo double
 	 */
 	double leerDecimal(){
 		while(true){
@@ -86,8 +86,8 @@ public class TecladoScanner {
 	
 	/**
 	 * Lee un decimal y muestra un mensaje
-	 * @param msg
-	 * @return double
+	 * @param msg  cadena de texto a mostrar
+	 * @return double devuelve un decimal de tipo double
 	 */
 	double leerDecimal(String msg){
 		System.out.println(msg);
@@ -95,8 +95,8 @@ public class TecladoScanner {
 	}
 	
 	/**
-	 * Lee un carï¿½cter (todos excepto numeros)
-	 * @return char
+	 * Lee un carácter (todos excepto numeros)
+	 * @return char carácter
 	 */
 	char leerCaracter(){
 		while(true){
@@ -111,8 +111,8 @@ public class TecladoScanner {
 	
 	/**
 	 * Lee un caracter y muestra un mensaje
-	 * @param msg
-	 * @return char
+	 * @param msg cadena de texto a mostrar
+	 * @return char carácter
 	 */
 	char leerCaracter(String msg){
 		System.out.println(msg);
@@ -121,7 +121,7 @@ public class TecladoScanner {
 	
 	/**
 	 * Lee una cadena de texto
-	 * @return String
+	 * @return String cadena de texto
 	 */
 	String leerCadena(){
 		while(true){
@@ -136,8 +136,8 @@ public class TecladoScanner {
 	
 	/**
 	 * Lee una cadena de texto y muestra un mensaje
-	 * @param msg
-	 * @return String
+	 * @param msg cadena de texto a mostrar
+	 * @return String cadena de texto
 	 */
 	String leerCadena(String msg){
 		System.out.println(msg);
