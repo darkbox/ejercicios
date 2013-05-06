@@ -10,13 +10,9 @@ import java.io.File;
 import java.util.ListIterator;
 import java.util.Stack;
 import javax.imageio.ImageIO;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JSpinner;
-import javax.swing.JTextField;
-import javax.swing.SpinnerNumberModel;
+import tools.Menu;
 import tools.Sound;
-
+import tools.Teclado;
 
 /**
  * 
@@ -33,13 +29,15 @@ import tools.Sound;
  * @version 1.0
  *
  */
-public class SieteYMedia extends Game{
+public class CopyOfSieteYMedia extends Game{
 
 	// Controla el estado del juego
 	private static int gameState = 0;
 	private static boolean endOfMach = false;
 	// Menus
-
+	private static Menu mainMenu;
+	private static Menu multiplayerMenu;
+	private static Menu inGameMenu;
 	// Variables de imagen
 	private BufferedImage feltFabric;
 	private BufferedImage[] deck;
@@ -57,13 +55,13 @@ public class SieteYMedia extends Game{
 	 */
 	public static void main(String[] args){
 		// Instanciamos el motor del juego
-		GameApp.start(new SieteYMedia());
+		GameApp.start(new CopyOfSieteYMedia());
 	}
 
 	/**
 	 * Constructor del juego Siete y Media
 	 */
-	public SieteYMedia(){
+	public CopyOfSieteYMedia(){
 		title = "Siete y Media v1.0";
 		width = 1024;
 		height = 748;
@@ -84,14 +82,21 @@ public class SieteYMedia extends Game{
 		createDeck();
 		System.out.print(printCards()); // Para depuración
 		// Crea la pila de jugadores
-		players = new Stack<Player>();
+		players = new Stack();
 		// Inicializamos los menus
 		// Menu principal
-		
+		mainMenu = new Menu("Siete y Media", true);
+		mainMenu.add("Un jugador");
+		mainMenu.add("Varios jugadores");
+		mainMenu.add("About");
 		// Menu Multijugador
-		
+		multiplayerMenu = new Menu("Modo multijugador", false);
+		multiplayerMenu.add("Seleccionar número de jugadores");
+		multiplayerMenu.add("Volver");
 		// Menu del juego
-		
+		inGameMenu = new Menu("¿Repetir partida?", false);
+		inGameMenu.add("Sí");
+		inGameMenu.add("No");
 		// Sonido
 		//Sound.playSound("sounds/looping_radio_mix.wav", true);
 	}
@@ -129,21 +134,44 @@ public class SieteYMedia extends Game{
 	 */
 	private static void controlMenu(){
 		switch(gameState){
-		case 0: // Seleccionar numero de jugadores
-			SpinnerNumberModel sModel = new SpinnerNumberModel(1, 1, 8, 1);
-			JSpinner spinner = new JSpinner(sModel);
-			int option = JOptionPane.showOptionDialog(null, spinner, "Seleccione el número de jugadores", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, new String[]{"Aceptar", "Salir del juego"}, "default");
-			if (option == JOptionPane.INFORMATION_MESSAGE)
-			{
-				// usuario pulsa cancelar
-				System.exit(0);
-			} else if (option == JOptionPane.OK_OPTION)
-			{
-				// usuario introduce un numero
-				createPlayers((Integer)spinner.getValue());
-				gameState = 3; // Cambia el estado del juego
+		case 0: // Muestra el menú principal
+			mainMenu.print();
+			switch(mainMenu.select()){
+			case 1: // Un jugador
+				System.out.println("Modo un solo jugador seleccionado.");
+				// Creamos al jugador
+				createPlayers(1);
+				// Inicializamos la partida
+				gameState = 3;
+				break;
+			case 2: // Multijugador
+				System.out.println("Modo multijugador seleccionado.");
+				gameState = 1;
+				break;
+			case 3: // About
+				System.out.println("Version: 0.1 Author: Rafael García Maliga");
+				break;
 			}
-		break;
+			break;
+		case 1: // Muestra el submenu de multijugador
+			multiplayerMenu.print();
+			switch(multiplayerMenu.select()){
+			case 1: // Selecciona el número de jugadores
+				int numberOfPlayers = 0;
+				do{
+					numberOfPlayers = Teclado.leerEntero("Selecciona el número de jugadores. (de 2 a ...)> ");
+				}while(numberOfPlayers < 2);
+				// Creamos los jugadores
+				createPlayers(numberOfPlayers);
+				// Inicializamos la partida
+				gameState = 3;
+				break;
+			case 2: // Vuelve al menú principal
+				gameState = 0;
+				break;
+
+			}
+			break;
 		case 3: // Partida
 			playing(); // Método que controla la logica y el desarrollo de la partida			
 			break;
@@ -160,11 +188,7 @@ public class SieteYMedia extends Game{
 	private static void createPlayers(int numPlayers){
 		// crea la lista de jugadores
 		for(int i = 1; i <= numPlayers; i++){
-			// Muestra una ventana de dialogo para introducir el nombre del jugador
-			JTextField textField = new JTextField();
-			textField.setText("Jugador"+i);
-			JOptionPane.showOptionDialog(null, textField, "Escriba el nombre para el jugador #"+i, JOptionPane.OK_OPTION, JOptionPane.INFORMATION_MESSAGE, null, new String[]{"Aceptar"}, null);
-			players.add(new Player(textField.getText()));
+			players.add(new Player(Teclado.leerCadena("Escriba el nombre para el jugador #"+i+"> ")));
 		}
 	}    
 
@@ -186,19 +210,15 @@ public class SieteYMedia extends Game{
 				 *         > Plantarse
 				 */
 				switch(tempPlayer.options()){
-				case JOptionPane.OK_OPTION: // Recibir carta
+				case 1: // Recibir carta
 					Sound.playSound("sounds/beepclear.wav", false);
-					if(handOutCards(tempPlayer)){
-						tempPlayer.update();
-						if(tempPlayer.isOut()){
-							playersLeft++; // Se incrementa el numero de jugadores fuera de la partida
-						}
-					}else{
-						// No quedan cartas, se acaba el juego
-						endOfMach = true;
+					handOutCards(tempPlayer);
+					tempPlayer.update();
+					if(tempPlayer.isOut()){
+						playersLeft++; // Se incrementa el numero de jugadores fuera de la partida
 					}
 					break;
-				case JOptionPane.INFORMATION_MESSAGE: // Plantarse
+				case 2: // Plantarse
 					Sound.playSound("sounds/fail1.wav", false);
 					tempPlayer.setOut(true);
 					playersLeft++; // Se incrementa el numero de jugadores fuera de la partida
@@ -221,11 +241,9 @@ public class SieteYMedia extends Game{
 		// Compruebo si ha finalizado la partida  
 		if(endOfMach){
 			// Partida finalizada
-			JLabel label = new JLabel("¿Desea reiniciar la mesa?\n Cancelar para elegir nuevos jugadores.");
-			int option = JOptionPane.showOptionDialog(null, label, "La partida a finalizada", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
-			
-			switch(option){
-			case JOptionPane.YES_OPTION: // Si
+			inGameMenu.print();
+			switch(inGameMenu.select()){
+			case 1: // Si
 				// Reiniciamos la baraja, eliminamos las cartas de los
 				// jugadores y les permitimos jugar.
 				ListIterator<Player> pIterator = players.listIterator();
@@ -241,7 +259,7 @@ public class SieteYMedia extends Game{
 				playerOrder = 0;
 				endOfMach = false;
 				break;
-			case JOptionPane.NO_OPTION: // No
+			case 2: // No
 				// Eliminamos todos los jugadores y reiniciamos las variables
 				players.clear();
 				// Reiniciamos la baraja
@@ -323,7 +341,7 @@ public class SieteYMedia extends Game{
 
 		int counter = 0; // Cuenta el numero de la carta
 		float value = 0; // Cuenta el valor de la carta
-		deckOfCards = new Stack<Card>(); // Creamos la baraja
+		deckOfCards = new Stack(); // Creamos la baraja
 
 		// Rellenamos el mazo con las cartas
 		// OROS

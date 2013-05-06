@@ -14,7 +14,7 @@ import java.io.File;
 import java.util.ListIterator;
 import java.util.Stack;
 import javax.imageio.ImageIO;
-import tools.Menu;
+import javax.swing.JOptionPane;
 import tools.Sound;
 
 /**
@@ -33,7 +33,6 @@ public class Player {
 	private float score;
 	private boolean out;
 	private Stack<Card> hand;
-	private Menu options;
 	// Imagen
 	private BufferedImage shadow;
 
@@ -48,10 +47,6 @@ public class Player {
 		this.score = 0;
 		this.out = false;
 		this.hand = new Stack<Card>();
-		// Menu del jugador
-		this.options = new Menu(name + ", ¿Qué desea hacer?", false);
-		options.add("Recibir carta...");
-		options.add("Plantarse...");
 		// Carga recursos
 		try{
 			shadow = ImageIO.read(new File("shadow.png"));
@@ -66,10 +61,16 @@ public class Player {
 	 * @return int valor seleccionado
 	 */
 	public int options(){
-		// Mostramos las opciones en consola
-		options.print();
+		int option = JOptionPane.showOptionDialog(null, 
+		        "¿Qué desea hacer?", 
+		        this.name, 
+		        JOptionPane.OK_CANCEL_OPTION, 
+		        JOptionPane.INFORMATION_MESSAGE, 
+		        null, 
+		        new String[]{"Recibir carta", "Plantarse"}, // this is the array
+		        "default");
 		// Devolvemos el valor seleccionado por el jugador
-		return options.select();
+		return option;
 	}
 
 	/**
