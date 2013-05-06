@@ -30,7 +30,7 @@ import tools.Sound;
  *  Al iniciar cada partida se preguntará qué jugador juega y cuál no.
  *
  * @author Rafael García Maliga
- * @version 1.0
+ * @version 2.0
  *
  */
 public class SieteYMedia extends Game{
@@ -38,8 +38,6 @@ public class SieteYMedia extends Game{
 	// Controla el estado del juego
 	private static int gameState = 0;
 	private static boolean endOfMach = false;
-	// Menus
-
 	// Variables de imagen
 	private BufferedImage feltFabric;
 	private BufferedImage[] deck;
@@ -85,14 +83,7 @@ public class SieteYMedia extends Game{
 		System.out.print(printCards()); // Para depuración
 		// Crea la pila de jugadores
 		players = new Stack<Player>();
-		// Inicializamos los menus
-		// Menu principal
-		
-		// Menu Multijugador
-		
-		// Menu del juego
-		
-		// Sonido
+		// Musica
 		//Sound.playSound("sounds/looping_radio_mix.wav", true);
 	}
 
