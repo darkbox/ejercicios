@@ -183,11 +183,19 @@ public class SieteYMedia extends Game{
 						tempPlayer.update();
 						if(tempPlayer.isOut()){
 							playersLeft++; // Se incrementa el numero de jugadores fuera de la partida
+							// Comprueba si ha ganado, si es así se acaba la partida
+							if(tempPlayer.isWon()){
+								JLabel label = new JLabel(tempPlayer.getName() + " Ha ganado!");
+								JOptionPane.showOptionDialog(null, label, "La partida a finalizada", JOptionPane.YES_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+								endOfMach = true;
+							}
 						}
+						tempPlayer.update();
 					}else{
 						// No quedan cartas, se acaba el juego
 						endOfMach = true;
 					}
+					
 					break;
 				case JOptionPane.INFORMATION_MESSAGE: // Plantarse
 					Sound.playSound("sounds/fail1.wav", false);
@@ -205,7 +213,6 @@ public class SieteYMedia extends Game{
 			// Continuamos con el siguiente jugador
 			playerOrder++;
 		}else{
-
 			playerOrder = 0;
 		}
 
@@ -276,7 +283,7 @@ public class SieteYMedia extends Game{
 			g.setFont(new Font("Arial", Font.PLAIN, 70));
 			g.drawString("¡Bienvenido a Siete y Media!", 50, 150);
 			g.setFont(new Font("Arial", Font.PLAIN, 18));
-			g.drawString("Configura tu partida en el menu de consola.", 50, 200);
+			g.drawString("Configura tu partida.", 50, 200);
 		}
 
 	}

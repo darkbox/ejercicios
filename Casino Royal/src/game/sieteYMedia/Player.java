@@ -32,6 +32,7 @@ public class Player {
 	private int lost;
 	private float score;
 	private boolean out;
+	private boolean won;
 	private Stack<Card> hand;
 	// Imagen
 	private BufferedImage shadow;
@@ -46,6 +47,7 @@ public class Player {
 		this.lost = 0;
 		this.score = 0;
 		this.out = false;
+		this.won = false;
 		this.hand = new Stack<Card>();
 		// Carga recursos
 		try{
@@ -79,6 +81,7 @@ public class Player {
 	void restart(){
 		setHand(new Stack<Card>());
 		setOut(false); 
+		setWon(false);
 	}
 
 	/**
@@ -102,6 +105,7 @@ public class Player {
 				this.wins++; // Ha ganado
 			}
 			this.setOut(true);
+			this.setWon(true);
 		}
 		if(score > 7.5f){
 			if(!out){
@@ -150,7 +154,7 @@ public class Player {
 				g2.fillRect(x+290, y+45, 120, 30);
 				g2.setColor(Color.orange);
 				g2.drawString("¡Estás fuera!", x+300, y+65);
-			}else if(score == 7.5f){
+			}else if(isWon()){
 				g2.setColor(new Color(0,0,0,80));
 				g2.fillRect(x+290, y+45, 180, 30);
 				g2.setColor(Color.green);
@@ -204,6 +208,22 @@ public class Player {
 	 */
 	public int getWins() {
 		return wins;
+	}
+
+	/**
+	 * Define si ha ganado
+	 * @param boolean
+	 */
+	public void setWon(boolean won) {
+		this.won = won;
+	}
+	
+	/**
+	 * Devuelve si ha ganado o no
+	 * @return true si ha ganado
+	 */
+	public boolean isWon() {
+		return this.won;
 	}
 
 	/**
