@@ -4,7 +4,6 @@
  */
 package tools;
 
-import java.io.File;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -26,7 +25,7 @@ public class Sound {
             @Override
           public void run() {
             try {
-                AudioInputStream inputStream = AudioSystem.getAudioInputStream(new File(file));
+                AudioInputStream inputStream = AudioSystem.getAudioInputStream(getClass().getResource(file));
                 Clip clip = AudioSystem.getClip();
                 clip.open(inputStream);
                 if(loop){

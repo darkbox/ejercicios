@@ -6,7 +6,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.util.ListIterator;
 import java.util.Stack;
 import javax.imageio.ImageIO;
@@ -73,8 +72,8 @@ public class SieteYMedia extends Game{
 		// Cargo los recursos al inicio del juego
 		// Carga la imagenes
 		try{
-			feltFabric = ImageIO.read(new File("feltFabric.png"));
-			deck = sliptImage(ImageIO.read(new File("deck.png")), 4, 10); // Divido el sprite y lo guardo
+			feltFabric = ImageIO.read(getClass().getResource("/feltFabric.png"));
+			deck = sliptImage(ImageIO.read(getClass().getResource("/deck.png")), 4, 10); // Divido el sprite y lo guardo
 		}catch(Exception e){
 			System.err.print("An error has ocurred loading textures: " + e);
 		}
@@ -178,7 +177,7 @@ public class SieteYMedia extends Game{
 				 */
 				switch(tempPlayer.options()){
 				case JOptionPane.OK_OPTION: // Recibir carta
-					Sound.playSound("sounds/beepclear.wav", false);
+					Sound.playSound("/sounds/beepclear.wav", false);
 					if(handOutCards(tempPlayer)){
 						tempPlayer.update();
 						if(tempPlayer.isOut()){
@@ -198,7 +197,7 @@ public class SieteYMedia extends Game{
 					
 					break;
 				case JOptionPane.INFORMATION_MESSAGE: // Plantarse
-					Sound.playSound("sounds/fail1.wav", false);
+					Sound.playSound("/sounds/fail1.wav", false);
 					tempPlayer.setOut(true);
 					playersLeft++; // Se incrementa el numero de jugadores fuera de la partida
 					break;

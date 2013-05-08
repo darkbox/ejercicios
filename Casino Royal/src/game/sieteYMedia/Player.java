@@ -10,7 +10,6 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.util.ListIterator;
 import java.util.Stack;
 import javax.imageio.ImageIO;
@@ -51,7 +50,7 @@ public class Player {
 		this.hand = new Stack<Card>();
 		// Carga recursos
 		try{
-			shadow = ImageIO.read(new File("shadow.png"));
+			shadow = ImageIO.read(getClass().getResource("/shadow.png"));
 		}catch(Exception e){
 			System.err.print("An error has ocurred loading textures: " + e);
 		}
@@ -101,7 +100,7 @@ public class Player {
 		// Comprueba si hemos ganado o perdido
 		if(score == 7.5f){
 			if(!out){
-				Sound.playSound("sounds/win" + ((int) (1+Math.random()*3)) + ".wav", false);
+				Sound.playSound("/sounds/win" + ((int) (1+Math.random()*3)) + ".wav", false);
 				this.wins++; // Ha ganado
 			}
 			this.setOut(true);
@@ -110,7 +109,7 @@ public class Player {
 		if(score > 7.5f){
 			if(!out){
 
-				Sound.playSound("sounds/fail" + ((int) (1+Math.random()*5)) + ".wav", false);
+				Sound.playSound("/sounds/fail" + ((int) (1+Math.random()*5)) + ".wav", false);
 				this.lost++; // Ha perdido
 			}
 			this.setOut(true);
