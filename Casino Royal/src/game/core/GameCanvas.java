@@ -26,7 +26,7 @@ public class GameCanvas extends JComponent {
     
     @Override
     public void paintComponent(Graphics g){
-        game.draw(g);
+       game.draw(g);
     }
     
 }

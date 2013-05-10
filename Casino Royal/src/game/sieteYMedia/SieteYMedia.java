@@ -5,15 +5,17 @@ import game.core.GameApp;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.util.ListIterator;
 import java.util.Stack;
 import javax.imageio.ImageIO;
 import javax.swing.JLabel;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
-import javax.swing.JSpinner;
 import javax.swing.JTextField;
-import javax.swing.SpinnerNumberModel;
 import tools.Sound;
 
 
@@ -46,7 +48,6 @@ public class SieteYMedia extends Game{
 	private static Stack<Player> players;
 	private static int playerOrder=0; // Para no utilizar un bucle y no interrumpir el renderizado.
 	private static int playersLeft=0;
-
 
 	/**
 	 * Main de SieteYMedia
@@ -84,6 +85,49 @@ public class SieteYMedia extends Game{
 		players = new Stack<Player>();
 		// Musica
 		//Sound.playSound("sounds/looping_radio_mix.wav", true);
+		
+		//Barra menu principal
+		JMenuBar menuBar = new JMenuBar();
+		
+		
+		JMenuItem mntmNewMenuItem = new JMenuItem("Exit");
+		mntmNewMenuItem.addActionListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent arg0) {
+				int seleccion = JOptionPane.showOptionDialog(
+					    null, // Componente padre
+					    "¿Estás seguro que desea salir?", //Mensaje
+					    "Seleccione una opción", // Título
+					    JOptionPane.YES_NO_CANCEL_OPTION,
+					    JOptionPane.QUESTION_MESSAGE,
+					    null,    // null para icono por defecto.
+					    new Object[] { "Si", "No"},    // null para YES, NO y CANCEL
+					    "Si");
+				if (seleccion != -1)
+				{
+				   if((seleccion + 1)==1)
+				   {
+				      // PRESIONO SI
+					   System.exit(0); // Cerrar
+				   }
+				   else
+				   {
+				      // PRESIONO NO
+				   }
+				}
+								
+			}
+		});
+		JMenuItem mntmAbout = new JMenuItem("About");
+		mntmAbout.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//About popup
+				JOptionPane.showMessageDialog(null, "Siete y Media V2.0\nAuthor: Rafael García Maliga");
+			}
+		});
+		menuBar.add(mntmAbout);
+		
+		
 	}
 
 	@Override
@@ -120,19 +164,19 @@ public class SieteYMedia extends Game{
 	private static void controlMenu(){
 		switch(gameState){
 		case 0: // Seleccionar numero de jugadores
-			SpinnerNumberModel sModel = new SpinnerNumberModel(1, 1, 8, 1);
-			JSpinner spinner = new JSpinner(sModel);
-			int option = JOptionPane.showOptionDialog(null, spinner, "Seleccione el número de jugadores", JOptionPane.OK_CANCEL_OPTION, JOptionPane.INFORMATION_MESSAGE, null, new String[]{"Aceptar", "Salir del juego"}, "default");
-			if (option == JOptionPane.INFORMATION_MESSAGE)
-			{
-				// usuario pulsa cancelar
-				System.exit(0);
-			} else if (option == JOptionPane.OK_OPTION)
-			{
+				VentanaConfiguracion vc = new VentanaConfiguracion();
+				vc.setVisible(true);
 				// usuario introduce un numero
-				createPlayers((Integer)spinner.getValue());
-				gameState = 3; // Cambia el estado del juego
-			}
+				while(true){
+					if(vc.isPlaying()){
+						System.out.println("Creando jugadores");
+						createPlayers((Integer)vc.spinner.getValue());
+						gameState = 3; // Cambia el estado del juego
+						break;
+					}else{
+						System.out.println("No se crearon jugadores");
+					}
+				}
 		break;
 		case 3: // Partida
 			playing(); // Método que controla la logica y el desarrollo de la partida			
@@ -162,6 +206,42 @@ public class SieteYMedia extends Game{
 	 * Controla la partida, la lógica y el desarrollo de la misma
 	 */
 	private static void playing(){
+		// Compruebo si ha finalizado la partida  
+				if(endOfMach){
+					// Partida finalizada
+					JLabel label = new JLabel("¿Desea reiniciar la mesa?\n Cancelar para elegir nuevos jugadores.");
+					int option = JOptionPane.showOptionDialog(null, label, "La partida a finalizada", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+					
+					switch(option){
+					case JOptionPane.YES_OPTION: // Si
+						// Reiniciamos la baraja, eliminamos las cartas de los
+						// jugadores y les permitimos jugar.
+						ListIterator<Player> pIterator = players.listIterator();
+						while(pIterator.hasNext()){
+							Player tempPlayer = pIterator.next();
+							// Quitamos las cartas al jugador y le permitimos jugar
+							tempPlayer.restart();                       
+						}
+						// Reiniciamos la baraja
+						createDeck();
+						// Modificamos el valor de las variables de juego
+						playersLeft = 0;
+						playerOrder = 0;
+						endOfMach = false;
+						break;
+					case JOptionPane.NO_OPTION: // No
+						// Eliminamos todos los jugadores y reiniciamos las variables
+						players.clear();
+						// Reiniciamos la baraja
+						createDeck();
+						// Modificamos el valor de las variables de juego
+						playersLeft = 0;
+						playerOrder = 0;
+						endOfMach = false;
+						gameState = 0;
+						break;
+					}
+				}
 		// Los jugadores se recorren uno a uno gracias a la variable
 		// playerOrder y al bucle del juego proporcionado por el 
 		// método update();
@@ -184,8 +264,8 @@ public class SieteYMedia extends Game{
 							playersLeft++; // Se incrementa el numero de jugadores fuera de la partida
 							// Comprueba si ha ganado, si es así se acaba la partida
 							if(tempPlayer.isWon()){
-								JLabel label = new JLabel(tempPlayer.getName() + " Ha ganado!");
-								JOptionPane.showOptionDialog(null, label, "La partida a finalizada", JOptionPane.YES_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+								//JLabel label = new JLabel(tempPlayer.getName() + " Ha ganado!");
+								//JOptionPane.showOptionDialog(null, label, "La partida finalizada", JOptionPane.YES_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
 								endOfMach = true;
 							}
 						}
@@ -215,42 +295,7 @@ public class SieteYMedia extends Game{
 			playerOrder = 0;
 		}
 
-		// Compruebo si ha finalizado la partida  
-		if(endOfMach){
-			// Partida finalizada
-			JLabel label = new JLabel("¿Desea reiniciar la mesa?\n Cancelar para elegir nuevos jugadores.");
-			int option = JOptionPane.showOptionDialog(null, label, "La partida a finalizada", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
-			
-			switch(option){
-			case JOptionPane.YES_OPTION: // Si
-				// Reiniciamos la baraja, eliminamos las cartas de los
-				// jugadores y les permitimos jugar.
-				ListIterator<Player> pIterator = players.listIterator();
-				while(pIterator.hasNext()){
-					Player tempPlayer = pIterator.next();
-					// Quitamos las cartas al jugador y le permitimos jugar
-					tempPlayer.restart();                       
-				}
-				// Reiniciamos la baraja
-				createDeck();
-				// Modificamos el valor de las variables de juego
-				playersLeft = 0;
-				playerOrder = 0;
-				endOfMach = false;
-				break;
-			case JOptionPane.NO_OPTION: // No
-				// Eliminamos todos los jugadores y reiniciamos las variables
-				players.clear();
-				// Reiniciamos la baraja
-				createDeck();
-				// Modificamos el valor de las variables de juego
-				playersLeft = 0;
-				playerOrder = 0;
-				endOfMach = false;
-				gameState = 0;
-				break;
-			}
-		}
+		
 	}
 
 	/**
