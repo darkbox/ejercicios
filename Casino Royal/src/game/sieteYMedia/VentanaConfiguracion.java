@@ -98,6 +98,26 @@ public class VentanaConfiguracion extends JFrame {
 				JOptionPane.showMessageDialog(null, "Siete y Media V2.0\nAuthor: Rafael García Maliga");
 			}
 		});
+		
+		JMenuItem mntmInstructions = new JMenuItem("Instructions");
+		mntmInstructions.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String helpString = "<html>" +
+						"1.- Selecciona el numero de jugadores (de 1-8) y pulsa sobre jugar.<br>" +
+						"2.- Introduce el nombre de cada usuario o deja el nombre generado por defecto.<br>" +
+						"3.- Se preguntará a cada usuario de forma cíclica si desea recibir una carta o plantarse.<br>" +
+						"	 Si desea plantarse no prodrá jugar hasta la próxima ronda.<br>" +
+						"4.- Cuando finalize una partida (si un jugador ha ganado, todos han perdido o bien no queden cartas)<br>" +
+						"	 Se le pregunta al usuario si desea continuar una nueva ronda con los mismo jugadores o si desea reiniciar, " +
+						"lo cual nos devuelve al punto 1.<br><br>" +
+						"Para salir del sistema pulsar el Aspa de la ventana o pulsar sobre File/Exit en la ventana de configuración.<br>" +
+						"Si desea salir durante la partida tiene que esperarse a que todos los jugadores acaben su turno, por ejemplo plantandose." +
+						"</html>";
+				// Instrucciones / ayuda
+				JOptionPane.showMessageDialog(null, helpString);
+			}
+		});
+		mnHelp.add(mntmInstructions);
 		mnHelp.add(mntmAbout);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
